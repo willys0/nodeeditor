@@ -3,12 +3,12 @@
 #include <iostream>
 
 #include <QtCore/QFile>
+#include <QtCore/QJsonArray>
 #include <QtCore/QJsonDocument>
 #include <QtCore/QJsonObject>
 #include <QtCore/QJsonValueRef>
-#include <QtCore/QJsonArray>
 
-#include <QDebug>
+#include <QtCore/QDebug>
 
 #include "StyleCollection.hpp"
 

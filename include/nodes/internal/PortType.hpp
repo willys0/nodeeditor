@@ -5,17 +5,8 @@
 
 namespace QtNodes
 {
+Q_NAMESPACE
 
-enum class PortType
-{
-  None,
-  In,
-  Out
-};
-
-static const int INVALID = -1;
-
-using PortIndex = int;
 
 struct Port
 {

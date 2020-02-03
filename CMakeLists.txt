@@ -58,6 +58,7 @@ set(CPP_SOURCE_FILES
   src/FlowScene.cpp
   src/FlowView.cpp
   src/FlowViewStyle.cpp
+  src/GraphModel.cpp
   src/Node.cpp
   src/NodeConnectionInteraction.cpp
   src/NodeDataModel.cpp
@@ -72,11 +73,12 @@ set(CPP_SOURCE_FILES
 
 # If we want to give the option to build a static library,
 # set BUILD_SHARED_LIBS option to OFF
-add_library(nodes
+add_library(NodeEditor::nodes ALIAS nodes)
+
+target_sources(nodes
   ${CPP_SOURCE_FILES}
   ${RESOURCES}
 )
-add_library(NodeEditor::nodes ALIAS nodes)
 
 target_include_directories(nodes
   PUBLIC

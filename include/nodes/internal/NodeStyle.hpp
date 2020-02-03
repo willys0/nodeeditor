@@ -10,6 +10,7 @@ namespace QtNodes
 
 class NODE_EDITOR_PUBLIC NodeStyle : public Style
 {
+  Q_OBJECT
 public:
 
   NodeStyle();

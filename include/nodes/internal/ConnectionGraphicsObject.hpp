@@ -22,68 +22,55 @@ class ConnectionGraphicsObject
 
 public:
 
-  ConnectionGraphicsObject(FlowScene &scene,
-                           Connection &connection);
+  using ConnectionId = std::pair<NodeId, NodeId>;
 
-  virtual
-  ~ConnectionGraphicsObject();
+  ConnectionGraphicsObject(FlowScene &    scene,
+                           ConnectionId connectionId);
+
+  virtual ~ConnectionGraphicsObject();
 
   enum { Type = UserType + 2 };
-  int
-  type() const override { return Type; }
+  int type() const override { return Type; }
 
 public:
 
-  Connection&
-  connection();
+  Connection & connection();
 
-  QRectF
-  boundingRect() const override;
+  QRectF boundingRect() const override;
 
-  QPainterPath
-  shape() const override;
+  QPainterPath shape() const override;
 
-  void
-  setGeometryChanged();
+  void setGeometryChanged();
 
   /// Updates the position of both ends
-  void
-  move();
+  void move();
 
-  void
-  lock(bool locked);
+  void lock(bool locked);
 
 protected:
 
-  void
-  paint(QPainter* painter,
-        QStyleOptionGraphicsItem const* option,
-        QWidget* widget = 0) override;
+  void paint(QPainter *                       painter,
+             QStyleOptionGraphicsItem const * option,
+             QWidget *                        widget = 0) override;
 
-  void
-  mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 
-  void
-  mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent * event) override;
 
-  void
-  mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent * event) override;
 
-  void
-  hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverEnterEvent(QGraphicsSceneHoverEvent * event) override;
 
-  void
-  hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent * event) override;
 
 private:
 
-  void
-  addGraphicsEffect();
+  void addGraphicsEffect();
 
 private:
 
   FlowScene & _scene;
 
-  Connection& _connection;
+  ConnectionId _connectionId;
 };
 }

@@ -37,18 +37,18 @@ public:
   /// New Connection is attached to the port of the given Node.
   /// The port has parameters (portType, portIndex).
   /// The opposite connection end will require anothre port.
-  Connection(PortType portType,
-             Node& node,
+  Connection(PortType  portType,
+             Node&     node,
              PortIndex portIndex);
 
-  Connection(Node& nodeIn,
-             PortIndex portIndexIn,
-             Node& nodeOut,
-             PortIndex portIndexOut,
+  Connection(Node&         nodeIn,
+             PortIndex     portIndexIn,
+             Node&         nodeOut,
+             PortIndex     portIndexOut,
              TypeConverter converter =
                TypeConverter{});
 
-  Connection(const Connection&) = delete;
+  Connection(const Connection&)           = delete;
   Connection operator=(const Connection&) = delete;
 
   ~Connection();
@@ -77,8 +77,8 @@ public:
   /// Assigns a node to the required port.
   /// It is assumed that there is a required port, no extra checks
   void
-  setNodeToPort(Node& node,
-                PortType portType,
+  setNodeToPort(Node&     node,
+                PortType  portType,
                 PortIndex portIndex);
 
   void
@@ -151,10 +151,10 @@ private:
 
 private:
 
-  ConnectionState    _connectionState;
+  ConnectionState _connectionState;
   ConnectionGeometry _connectionGeometry;
 
-  std::unique_ptr<ConnectionGraphicsObject>_connectionGraphicsObject;
+  std::unique_ptr<ConnectionGraphicsObject> _connectionGraphicsObject;
 
   TypeConverter _converter;
 

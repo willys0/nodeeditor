@@ -12,30 +12,24 @@ class StyleCollection
 public:
 
   static
-  NodeStyle const&
-  nodeStyle();
+  NodeStyle const & nodeStyle();
 
   static
-  ConnectionStyle const&
-  connectionStyle();
+  ConnectionStyle const& connectionStyle();
 
   static
-  FlowViewStyle const&
-  flowViewStyle();
+  FlowViewStyle const& flowViewStyle();
 
 public:
 
   static
-  void
-  setNodeStyle(NodeStyle);
+  void setNodeStyle(NodeStyle);
 
   static
-  void
-  setConnectionStyle(ConnectionStyle);
+  void setConnectionStyle(ConnectionStyle);
 
   static
-  void
-  setFlowViewStyle(FlowViewStyle);
+  void setFlowViewStyle(FlowViewStyle);
 
 private:
 
@@ -43,12 +37,10 @@ private:
 
   StyleCollection(StyleCollection const&) = delete;
 
-  StyleCollection&
-  operator=(StyleCollection const&) = delete;
+  StyleCollection & operator=(StyleCollection const&) = delete;
 
   static
-  StyleCollection&
-  instance();
+  StyleCollection & instance();
 
 private:
 

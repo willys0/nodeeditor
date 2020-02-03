@@ -13,89 +13,69 @@ class QGraphicsProxyWidget;
 namespace QtNodes
 {
 
-class FlowScene;
+class NodeGraphicsScene;
 class FlowItemEntry;
 
-/// Class reacts on GUI events, mouse clicks and
-/// forwards painting operation.
+
 class NodeGraphicsObject : public QGraphicsObject
 {
   Q_OBJECT
 
 public:
-  NodeGraphicsObject(FlowScene &scene,
-                     Node& node);
+  NodeGraphicsObject(NodeGraphicsScene &scene, NodeId node);
 
-  virtual
-  ~NodeGraphicsObject();
+  virtual ~NodeGraphicsObject();
 
-  Node&
-  node();
+  NodeId nodeId() { return _nodeId; }
 
-  Node const&
-  node() const;
+  NodeId nodeId() const { return _nodeId; }
 
-  QRectF
-  boundingRect() const override;
+  QRectF boundingRect() const override;
 
-  void
-  setGeometryChanged();
+  void setGeometryChanged();
 
   /// Visits all attached connections and corrects
   /// their corresponding end points.
-  void
-  moveConnections() const;
+  void moveConnections() const;
 
   enum { Type = UserType + 1 };
 
-  int
-  type() const override { return Type; }
+  int type() const override { return Type; }
 
-  void
-  lock(bool locked);
+  void lock(bool locked = true);
 
 protected:
-  void
-  paint(QPainter*                       painter,
-        QStyleOptionGraphicsItem const* option,
-        QWidget*                        widget = 0) override;
+  void paint(QPainter*                       painter,
+             QStyleOptionGraphicsItem const* option,
+             QWidget*                        widget = 0) override;
 
-  QVariant
-  itemChange(GraphicsItemChange change, const QVariant &value) override;
+  QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
 
-  void
-  mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+  void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
 
-  void
-  mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
 
-  void
-  mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
 
-  void
-  hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
 
-  void
-  hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+  void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
 
-  void
-  hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
+  void hoverMoveEvent(QGraphicsSceneHoverEvent *) override;
 
-  void
-  mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+  void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
 
-  void
-  contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
-
-private:
-  void
-  embedQWidget();
+  void contextMenuEvent(QGraphicsSceneContextMenuEvent* event) override;
 
 private:
 
-  FlowScene & _scene;
+  void embedQWidget();
 
-  Node& _node;
+private:
+
+  NodeGraphicsScene & _scene;
+
+  NodeId _nodeId;
 
   bool _locked;
 
