@@ -21,7 +21,9 @@ allNodeIds() const
 
 std::unordered_set<NodeId>
 GraphModel::
-connectedNodes(NodeId const & node, PortType portType, PortIndex index) const
+connectedNodes(NodeId const & node,
+               PortType portType,
+               PortIndex index) const
 {
   // No connected nodes in the default implementation.
   return std::unordered_set<NodeId>();
@@ -36,7 +38,15 @@ nodeData(NodeId nodeId, NodeRole role)
   switch (role)
   {
     case Position:
-      return QPointF(0.0, 0.0);
+      return _position;
+      break;
+
+    case Resizable:
+      return false;
+      break;
+
+    case Size;
+      return QSize(100, 100);
       break;
 
     case CaptionVisible:
@@ -48,7 +58,11 @@ nodeData(NodeId nodeId, NodeRole role)
       break;
 
     case Style:
-      return QVariant();
+      return StyleCollectino::nodeStyle();
+      break;
+
+    case Hovered;
+      return false;
       break;
 
     case NumberOfInPorts:
@@ -58,13 +72,25 @@ nodeData(NodeId nodeId, NodeRole role)
     case NumberOfOutPorts:
       return 1u;
       break;
+
+    case Widget:
+      return nullptr;
+      break;
   }
 }
 
 
 QVariant
 GraphModel::
-portData(NodeId    nodeId,
+setNodeData(NodeId nodeId, NodeRole role, QVariant value)
+{
+  return false;
+}
+
+
+QVariant
+GraphModel::
+portData(NodeId nodeId,
          PortType  portType,
          PortIndex index,
          PortRole  role) const
@@ -92,3 +118,15 @@ portData(NodeId    nodeId,
       break;
   }
 }
+
+
+bool
+GraphModel::
+setPortData(NodeId nodeId,
+            PortType  portType,
+            PortIndex index,
+            PortRole  role) const
+{
+  return false;
+}
+

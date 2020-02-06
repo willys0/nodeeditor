@@ -44,6 +44,8 @@ public:
 
   void lock(bool locked = true);
 
+  void unlock() { lock(false); }
+
 protected:
   void paint(QPainter*                       painter,
              QStyleOptionGraphicsItem const* option,
@@ -69,7 +71,7 @@ protected:
 
 private:
 
-  void embedQWidget();
+  //void embedQWidget();
 
 private:
 

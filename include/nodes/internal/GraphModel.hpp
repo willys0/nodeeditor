@@ -22,15 +22,13 @@ public:
    * trace back to the model's internal representation of the node.
    */
   virtual
-  std::unordered_set<NodeId>
-  allNodeIds() const;
+  std::unordered_set<NodeId> allNodeIds() const;
 
   /// @brief Returns all connected Node Ids for given port.
   virtual
-  std::unordered_set<NodeId>
-  connectedNodes(NodeId const & node,
-                 PortType       portType,
-                 PortIndex      index) const;
+  std::unordered_set<NodeId> connectedNodes(NodeId const & node,
+                                            PortType portType,
+                                            PortIndex index) const;
 
   /// @brief Returns node-related data for requested NodeRole.
   /**
@@ -38,8 +36,15 @@ public:
    * Node Position etc.
    */
   virtual
-  QVariant
-  nodeData(NodeId nodeId, NodeRole role);
+  QVariant nodeData(NodeId nodeId, NodeRole role);
+
+  /// @brief Sets node properties.
+  /**
+   * Sets: Node Caption, Node Caption Visibility,
+   * Shyle, Hovered State, Node Position etc.
+   */
+  virtual
+  bool setNodeData(NodeId nodeId, NodeRole role, QVariant value);
 
   /// @brief Returns port-related data for requested NodeRole.
   /**
@@ -47,11 +52,16 @@ public:
    * Caption.
    */
   virtual
-  QVariant
-  portData(NodeId    nodeId,
-           PortType  portType,
-           PortIndex index,
-           PortRole  role) const;
+  QVariant portData(NodeId nodeId,
+                    PortType  portType,
+                    PortIndex index,
+                    PortRole  role) const;
+
+  virtual
+  bool setPortData(NodeId nodeId,
+                   PortType  portType,
+                   PortIndex index,
+                   PortRole  role) const;
 };
 
 }

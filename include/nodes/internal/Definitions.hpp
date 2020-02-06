@@ -14,8 +14,9 @@ enum class NodeRole
   CaptionVisible   = 1,
   Caption          = 2,
   Style            = 3,
-  NumberOfInPorts  = 4,
-  NumberOfOutPorts = 5,
+  Hovered          = 4,
+  NumberOfInPorts  = 5,
+  NumberOfOutPorts = 6,
 };
 Q_ENUM_NS(NodeRole)
 

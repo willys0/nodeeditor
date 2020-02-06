@@ -41,41 +41,56 @@ public:
 
 public:
 
-  std::shared_ptr<Connection>createConnection(PortType  connectedPort,
-                                              Node &    node,
-                                              PortIndex portIndex);
+  GraphModel const & graphModel() const;
 
-  std::shared_ptr<Connection>createConnection(Node &                nodeIn,
-                                              PortIndex             portIndexIn,
-                                              Node &                nodeOut,
-                                              PortIndex             portIndexOut,
-                                              TypeConverter const & converter = TypeConverter{});
+private:
 
-  std::shared_ptr<Connection> restoreConnection(QJsonObject const & connectionJson);
+  /// @brief Creates Node and Connection graphics objects.
+  /**
+   * 1. Get all the node ids.
+   * 2. Tranverse the graph visiting all nodes.
+   * 3. Create NodeGraphicsObjects.
+   * 4. Create ConnectionGraphicsObjects.
+   */
+  void traverseGraphAndPopulateGraphicsObjects();
 
-  void deleteConnection(Connection & connection);
+public:
 
-  Node & createNode(std::unique_ptr<NodeDataModel> && dataModel);
+  //std::shared_ptr<Connection> createConnection(PortType  connectedPort,
+  //Node &    node,
+  //PortIndex portIndex);
 
-  Node & restoreNode(QJsonObject const & nodeJson);
+  //std::shared_ptr<Connection> createConnection(Node &                nodeIn,
+  //PortIndex             portIndexIn,
+  //Node &                nodeOut,
+  //PortIndex             portIndexOut,
+  //TypeConverter const & converter = TypeConverter{});
 
-  void removeNode(Node & node);
+  //std::shared_ptr<Connection> restoreConnection(QJsonObject const & connectionJson);
 
-  DataModelRegistry & registry() const;
+  //void deleteConnection(Connection & connection);
 
-  void setRegistry(std::shared_ptr<DataModelRegistry> registry);
+  //Node & createNode(std::unique_ptr<NodeDataModel> && dataModel);
 
-  void iterateOverNodes(std::function<void(Node *)> const & visitor);
+  //Node & restoreNode(QJsonObject const & nodeJson);
 
-  void iterateOverNodeData(std::function<void(NodeDataModel *)> const & visitor);
+  //void removeNode(Node & node);
 
-  void iterateOverNodeDataDependentOrder(std::function<void(NodeDataModel *)> const & visitor);
+  //DataModelRegistry & registry() const;
 
-  QPointF getNodePosition(Node const & node) const;
+  //void setRegistry(std::shared_ptr<DataModelRegistry> registry);
 
-  void setNodePosition(Node & node, QPointF const & pos) const;
+  //void iterateOverNodes(std::function<void(Node *)> const & visitor);
 
-  QSizeF getNodeSize(Node const & node) const;
+  //void iterateOverNodeData(std::function<void(NodeDataModel *)> const & visitor);
+
+  //void iterateOverNodeDataDependentOrder(std::function<void(NodeDataModel *)> const & visitor);
+
+  //QPointF getNodePosition(Node const & node) const;
+
+  //void setNodePosition(Node & node, QPointF const & pos) const;
+
+  //QSizeF getNodeSize(Node const & node) const;
 
 public:
 
@@ -89,15 +104,15 @@ public:
 
 public:
 
-  void clearScene();
+  //void clearScene();
 
-  void save() const;
+  //void save() const;
 
-  void load();
+  //void load();
 
-  QByteArray saveToMemory() const;
+  //QByteArray saveToMemory() const;
 
-  void loadFromMemory(const QByteArray & data);
+  //void loadFromMemory(const QByteArray & data);
 
 Q_SIGNALS:
 
@@ -135,19 +150,24 @@ Q_SIGNALS:
 
 private:
 
-  using SharedConnection = std::shared_ptr<Connection>;
-  using UniqueNode       = std::unique_ptr<Node>;
+  //using SharedConnection = std::shared_ptr<Connection>;
+  //using UniqueNode       = std::unique_ptr<Node>;
 
   // TODO shared pointer?
   GraphModel & _graphModel;
 
 
-  std::unordered_map<NodeId,
-                     std::unique_ptr<NodeGraphicsObject>>
+  using UniqueNodeGraphicsObject =
+    std::unique_ptr<NodeGraphicsObject>();
+
+  using UniqueConnectionGraphicsObject =
+    std::unique_ptr<ConnectionGraphicsObject>;
+
+  std::unordered_map<NodeId, UniqueNodeGraphicsObject>
   _nodeGraphicObjects;
 
   std::unordered_map<std::pair<NodeId, NodeId>,
-                     std::unique_ptr<ConnectionGraphicsObject>>
+                     UniqueConnectionGraphicsObject>
   _connectionGraphicObjects;
 
 

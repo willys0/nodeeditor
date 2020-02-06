@@ -23,8 +23,8 @@ using QtNodes::Node;
 using QtNodes::NodeGraphicsScene;
 
 NodeGraphicsObject::
-NodeGraphicsObject(NodeGraphicsScene &scene,
-                   NodeId             nodeId)
+NodeGraphicsObject(NodeGraphicsScene & scene,
+                   NodeId nodeId)
   : _scene(scene)
   , _nodeId(nodeId)
   , _locked(false)
@@ -40,7 +40,7 @@ NodeGraphicsObject(NodeGraphicsScene &scene,
 
   setCacheMode(QGraphicsItem::DeviceCoordinateCache);
 
-  auto const &nodeStyle = nodeId.nodeDataModel()->nodeStyle();
+  auto const & nodeStyle = nodeId.nodeDataModel()->nodeStyle();
 
   {
     auto effect = new QGraphicsDropShadowEffect;
@@ -60,11 +60,10 @@ NodeGraphicsObject(NodeGraphicsScene &scene,
   embedQWidget();
 
   // connect to the move signals to emit the move signals in NodeGraphicsScene
-  auto onMoveSlot = [this] {
-                      _scene.nodeMoved(_nodeId, pos());
-                    };
-  connect(this, &QGraphicsObject::xChanged, this, onMoveSlot);
-  connect(this, &QGraphicsObject::yChanged, this, onMoveSlot);
+  //auto onMoveSlot = [this] { _scene.nodeMoved(_nodeId, pos()); };
+
+  //connect(this, &QGraphicsObject::xChanged, this, onMoveSlot);
+  //connect(this, &QGraphicsObject::yChanged, this, onMoveSlot);
 }
 
 
@@ -75,36 +74,36 @@ NodeGraphicsObject::
 }
 
 
-void
-NodeGraphicsObject::
-embedQWidget()
-{
-  NodeGeometry & geom = _nodeId.nodeGeometry();
+//void
+//NodeGraphicsObject::
+//embedQWidget()
+//{
+  //NodeGeometry & geom = _nodeId.nodeGeometry();
 
-  if (auto w = _nodeId.nodeDataModel()->embeddedWidget())
-  {
-    _proxyWidget = new QGraphicsProxyWidget(this);
+  //if (auto w = _nodeId.nodeDataModel()->embeddedWidget())
+  //{
+    //_proxyWidget = new QGraphicsProxyWidget(this);
 
-    _proxyWidget->setWidget(w);
+    //_proxyWidget->setWidget(w);
 
-    _proxyWidget->setPreferredWidth(5);
+    //_proxyWidget->setPreferredWidth(5);
 
-    geom.recalculateSize();
+    //geom.recalculateSize();
 
-    if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
-    {
-      // If the widget wants to use as much vertical space as possible, set it to have the geom's equivalentWidgetHeight.
-      _proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
-    }
+    //if (w->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
+    //{
+      //// If the widget wants to use as much vertical space as possible, set it to have the geom's equivalentWidgetHeight.
+      //_proxyWidget->setMinimumHeight(geom.equivalentWidgetHeight());
+    //}
 
-    _proxyWidget->setPos(geom.widgetPosition());
+    //_proxyWidget->setPos(geom.widgetPosition());
 
-    update();
+    //update();
 
-    _proxyWidget->setOpacity(1.0);
-    _proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
-  }
-}
+    //_proxyWidget->setOpacity(1.0);
+    //_proxyWidget->setFlag(QGraphicsItem::ItemIgnoresParentOpacity);
+  //}
+//}
 
 
 QRectF
@@ -157,9 +156,9 @@ lock(bool locked)
 
 void
 NodeGraphicsObject::
-paint(QPainter *                      painter,
-      QStyleOptionGraphicsItem const* option,
-      QWidget*)
+paint(QPainter * painter,
+      QStyleOptionGraphicsItem const * option,
+      QWidget *)
 {
   painter->setClipRect(option->exposedRect);
 
@@ -169,7 +168,7 @@ paint(QPainter *                      painter,
 
 QVariant
 NodeGraphicsObject::
-itemChange(GraphicsItemChange change, const QVariant &value)
+itemChange(GraphicsItemChange change, const QVariant & value)
 {
   if (change == ItemPositionChange && scene())
   {
@@ -207,7 +206,7 @@ mousePressEvent(QGraphicsSceneMouseEvent * event)
     {
       NodeState const & nodeState = _nodeId.nodeState();
 
-      std::unordered_map<QUuid, Connection*> connections =
+      std::unordered_map<QUuid, Connection *> connections =
         nodeState.connections(portToCheck, portIndex);
 
       // start dragging existing connection
@@ -311,7 +310,7 @@ mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 
 void
 NodeGraphicsObject::
-mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+mouseReleaseEvent(QGraphicsSceneMouseEvent * event)
 {
   auto & state = _node.nodeState();
 
@@ -331,7 +330,7 @@ hoverEnterEvent(QGraphicsSceneHoverEvent * event)
   // bring all the colliding nodes to background
   QList<QGraphicsItem *> overlapItems = collidingItems();
 
-  for (QGraphicsItem *item : overlapItems)
+  for (QGraphicsItem * item : overlapItems)
   {
     if (item->zValue() > 0.0)
     {
@@ -383,7 +382,7 @@ hoverMoveEvent(QGraphicsSceneHoverEvent * event)
 
 void
 NodeGraphicsObject::
-mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+mouseDoubleClickEvent(QGraphicsSceneMouseEvent * event)
 {
   QGraphicsItem::mouseDoubleClickEvent(event);
 
@@ -393,7 +392,7 @@ mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
 
 void
 NodeGraphicsObject::
-contextMenuEvent(QGraphicsSceneContextMenuEvent* event)
+contextMenuEvent(QGraphicsSceneContextMenuEvent * event)
 {
   _scene.nodeContextMenu(node(), mapToScene(event->pos()));
 }
