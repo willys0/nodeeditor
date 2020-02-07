@@ -3,9 +3,8 @@
 #include <QtCore/QObject>
 
 #include <utility>
-#include <iostream>
 
-#include "FlowScene.hpp"
+#include "NodeGraphicsScene.hpp"
 
 #include "NodeGraphicsObject.hpp"
 #include "NodeDataModel.hpp"
@@ -66,13 +65,13 @@ save() const
 
 void
 Node::
-restore(QJsonObject const& json)
+restore(QJsonObject const & json)
 {
   _uid = QUuid(json["id"].toString());
 
   QJsonObject positionJson = json["position"].toObject();
-  QPointF     point(positionJson["x"].toDouble(),
-                    positionJson["y"].toDouble());
+  QPointF point(positionJson["x"].toDouble(),
+                positionJson["y"].toDouble());
   _nodeGraphicsObject->setPos(point);
 
   _nodeDataModel->restore(json["model"].toObject());
@@ -90,8 +89,8 @@ id() const
 void
 Node::
 reactToPossibleConnection(PortType reactingPortType,
-                          NodeDataType const &reactingDataType,
-                          QPointF const &scenePoint)
+                          NodeDataType const & reactingDataType,
+                          QPointF const & scenePoint)
 {
   QTransform const t = _nodeGraphicsObject->sceneTransform();
 
@@ -134,7 +133,7 @@ nodeGraphicsObject()
 
 void
 Node::
-setGraphicsObject(std::unique_ptr<NodeGraphicsObject>&& graphics)
+setGraphicsObject(std::unique_ptr<NodeGraphicsObject> && graphics)
 {
   _nodeGraphicsObject = std::move(graphics);
 
@@ -142,7 +141,7 @@ setGraphicsObject(std::unique_ptr<NodeGraphicsObject>&& graphics)
 }
 
 
-NodeGeometry&
+NodeGeometry &
 Node::
 nodeGeometry()
 {
@@ -150,7 +149,7 @@ nodeGeometry()
 }
 
 
-NodeGeometry const&
+NodeGeometry const &
 Node::
 nodeGeometry() const
 {
@@ -210,24 +209,26 @@ onDataUpdated(PortIndex index)
     c.second->propagateData(nodeData);
 }
 
+
 void
 Node::
 onNodeSizeUpdated()
 {
-    if( nodeDataModel()->embeddedWidget() )
+  if ( nodeDataModel()->embeddedWidget() )
+  {
+    nodeDataModel()->embeddedWidget()->adjustSize();
+  }
+  nodeGeometry().recalculateSize();
+  for (PortType type: {PortType::In, PortType::Out})
+  {
+    for (auto & conn_set : nodeState().getEntries(type))
     {
-        nodeDataModel()->embeddedWidget()->adjustSize();
+      for (auto & pair: conn_set)
+      {
+        Connection* conn = pair.second;
+        conn->getConnectionGraphicsObject().move();
+      }
     }
-    nodeGeometry().recalculateSize();
-    for(PortType type: {PortType::In, PortType::Out})
-    {
-        for(auto& conn_set : nodeState().getEntries(type))
-        {
-            for(auto& pair: conn_set)
-            {
-                Connection* conn = pair.second;
-                conn->getConnectionGraphicsObject().move();
-            }
-        }
-    }
+  }
 }
+

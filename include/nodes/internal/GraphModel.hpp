@@ -38,6 +38,8 @@ public:
   virtual
   QVariant nodeData(NodeId nodeId, NodeRole role);
 
+  NodeFlags nodeFlags(NodeId nodeId);
+
   /// @brief Sets node properties.
   /**
    * Sets: Node Caption, Node Caption Visibility,

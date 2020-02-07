@@ -8,12 +8,12 @@
 
 #include "PortType.hpp"
 
-#include "Export.hpp"
-#include "NodeState.hpp"
-#include "NodeGeometry.hpp"
-#include "NodeData.hpp"
-#include "NodeGraphicsObject.hpp"
 #include "ConnectionGraphicsObject.hpp"
+#include "Export.hpp"
+#include "NodeData.hpp"
+#include "NodeGeometry.hpp"
+#include "NodeGraphicsObject.hpp"
+#include "NodeState.hpp"
 #include "Serializable.hpp"
 #include "memory.hpp"
 
@@ -36,70 +36,54 @@ public:
   /// NodeDataModel should be an rvalue and is moved into the Node
   Node(std::unique_ptr<NodeDataModel> && dataModel);
 
-  virtual
-  ~Node();
+  virtual ~Node();
 
 public:
 
-  QJsonObject
-  save() const override;
+  QJsonObject save() const override;
 
-  void
-  restore(QJsonObject const &json) override;
+  void restore(QJsonObject const & json) override;
 
 public:
 
-  QUuid
-  id() const;
+  QUuid id() const;
 
   void reactToPossibleConnection(PortType,
                                  NodeDataType const &,
                                  QPointF const & scenePoint);
 
-  void
-  resetReactionToConnection();
+  void resetReactionToConnection();
 
 public:
 
-  NodeGraphicsObject const &
-  nodeGraphicsObject() const;
+  NodeGraphicsObject const & nodeGraphicsObject() const;
 
-  NodeGraphicsObject &
-  nodeGraphicsObject();
+  NodeGraphicsObject & nodeGraphicsObject();
 
-  void
-  setGraphicsObject(std::unique_ptr<NodeGraphicsObject>&& graphics);
+  void setGraphicsObject(std::unique_ptr<NodeGraphicsObject> && graphics);
 
-  NodeGeometry&
-  nodeGeometry();
+  NodeGeometry & nodeGeometry();
 
-  NodeGeometry const&
-  nodeGeometry() const;
+  NodeGeometry const & nodeGeometry() const;
 
-  NodeState const &
-  nodeState() const;
+  NodeState const & nodeState() const;
 
-  NodeState &
-  nodeState();
+  NodeState & nodeState();
 
-  NodeDataModel*
-  nodeDataModel() const;
+  NodeDataModel*nodeDataModel() const;
 
 public Q_SLOTS: // data propagation
 
   /// Propagates incoming data to the underlying model.
-  void
-  propagateData(std::shared_ptr<NodeData> nodeData,
-                PortIndex inPortIndex) const;
+  void propagateData(std::shared_ptr<NodeData> nodeData,
+                     PortIndex inPortIndex) const;
 
   /// Fetches data from model's OUT #index port
   /// and propagates it to the connection
-  void
-  onDataUpdated(PortIndex index);
+  void onDataUpdated(PortIndex index);
 
   /// update the graphic part if the size of the embeddedwidget changes
-  void
-  onNodeSizeUpdated();
+  void onNodeSizeUpdated();
 
 private:
 

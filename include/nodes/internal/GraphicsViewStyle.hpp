@@ -8,13 +8,13 @@
 namespace QtNodes
 {
 
-class NODE_EDITOR_PUBLIC FlowViewStyle : public Style
+class NODE_EDITOR_PUBLIC GraphicsViewStyle : public Style
 {
 public:
 
-  FlowViewStyle();
+  GraphicsViewStyle();
 
-  FlowViewStyle(QString jsonText);
+  GraphicsViewStyle(QString jsonText);
 
 public:
 
@@ -26,7 +26,7 @@ private:
 
   void loadJsonFile(QString fileName) override;
 
-  void loadJsonFromByteArray(QByteArray const &byteArray) override;
+  void loadJsonFromByteArray(QByteArray const & byteArray) override;
 
 public:
 

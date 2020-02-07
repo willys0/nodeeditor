@@ -15,8 +15,6 @@ using QtNodes::NodeGeometry;
 using QtNodes::NodeDataModel;
 using QtNodes::PortIndex;
 using QtNodes::PortType;
-using QtNodes::Node;
-
 
 
 NodeGeometry::
@@ -33,6 +31,8 @@ NodeGeometry(NodeId nodeId, GraphModel const & graphModel)
   QFont f; f.setBold(true);
 
   _boldFontMetrics = QFontMetrics(f);
+
+  _entryHeight = _fontMetrics.height();
 }
 
 
@@ -40,16 +40,18 @@ QSize
 NodeGeometry::
 size() const
 {
-  return _graphModel.nodeData(_nodeId, NodeRole::Size);
+  //return _graphModel.nodeData(_nodeId, NodeRole::Size);
+
+  return recalculateSize();
 }
 
 
-void
-NodeGeometry::
-setSize(QSize s)
-{
-  return _graphModel.setNodeData(_nodeId, NodeRole::Size, s);
-}
+//void
+//NodeGeometry::
+//setSize(QSize s)
+//{
+  //return _graphModel.setNodeData(_nodeId, NodeRole::Size, s);
+//}
 
 
 unsigned int
@@ -123,55 +125,50 @@ boundingRect() const
 
   double addon = 4 * nodeStyle.ConnectionPointDiameter;
 
+  QSize size = recalculateSize();
+
   return QRectF(0 - addon,
                 0 - addon,
-                _width + 2 * addon,
-                _height + 2 * addon);
+                size.width() + 2 * addon,
+                size.height() + 2 * addon);
 }
 
 
-void
+QSize
 NodeGeometry::
 recalculateSize() const
 {
-  _entryHeight = _fontMetrics.height();
-
+  unsigned int height = 0;
   {
     unsigned int maxNumOfEntries = std::max(nInPorts(), nOutPorts());
     unsigned int step = _entryHeight + _verticalSpacing;
-    _height = step * maxNumOfEntries;
+    height = step * maxNumOfEntries;
   }
 
   if (auto w = _graphModel.nodeData(_nodeId, NodeRole::Widget))
   {
-    _height = std::max(_height, static_cast<unsigned int>(w->height()));
+    height = std::max(_height, static_cast<unsigned int>(w->height()));
   }
 
-  _height += captionHeight();
+  height += captionHeight();
 
-  _defaultInPortWidth  = portWidth(PortType::In);
-  _defaultOutPortWidth = portWidth(PortType::Out);
+  inPortWidth  = portWidth(PortType::In);
+  outPortWidth = portWidth(PortType::Out);
 
-  _width = _defaultInPortWidth +
-           _defaultOutPortWidth +
-           2 * _spacing;
+  unsigned int width = inPortWidth + outPortWidth + 2 * _spacing;
 
-  if (auto w = _graphModel.nodeData(_nodeId, NodeRole::NumberOfOutPorts);
+  if (auto w = _graphModel.nodeData(_nodeId, NodeRole::Widget);
   {
-    _width += w->width();
+    width += w->width();
   }
 
-  _width = std::max(_width, captionWidth());
+  width = std::max(width, captionWidth());
 
-  if (_dataModel->validationState() != NodeValidationState::Valid)
-  {
-    _width   = std::max(_width, validationWidth());
-    _height += validationHeight() + _spacing;
-  }
+  return QSize(width, height);
 }
 
 
-void
+QSize
 NodeGeometry::
 recalculateSize(QFont const & font) const
 {
@@ -187,8 +184,9 @@ recalculateSize(QFont const & font) const
     _fontMetrics     = fontMetrics;
     _boldFontMetrics = boldFontMetrics;
 
-    recalculateSize();
   }
+
+  return recalculateSize();
 }
 
 
@@ -379,9 +377,11 @@ calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType target
                                       PortIndex sourcePortIndex, PortType sourcePort, Node * sourceNode,
                                       Node & newNode)
 {
-  //Calculating the nodes position in the scene. It'll be positioned half way between the two ports that it "connects".
-  //The first line calculates the halfway point between the ports (node position + port position on the node for both nodes averaged).
-  //The second line offsets this coordinate with the size of the new node, so that the new nodes center falls on the originally
+  //Calculating the nodes position in the scene. It'll be positioned half way
+  //between the two ports that it "connects".  The first line calculates the
+  //halfway point between the ports (node position + port position on the node
+  //for both nodes averaged).  The second line offsets this coordinate with the
+  //size of the new node, so that the new nodes center falls on the originally
   //calculated coordinate, instead of it's upper left corner.
   auto converterNodePos = (sourceNode->nodeGraphicsObject().pos() + sourceNode->nodeGeometry().portScenePosition(sourcePortIndex, sourcePort) +
                            targetNode->nodeGraphicsObject().pos() + targetNode->nodeGeometry().portScenePosition(targetPortIndex, targetPort)) / 2.0f;
@@ -416,4 +416,3 @@ portWidth(PortType portType) const
 
   return width;
 }
-

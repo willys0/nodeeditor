@@ -47,7 +47,7 @@ qt5_add_resources(RESOURCES ./resources/resources.qrc)
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCE_FILES
-  src/Connection.cpp
+  #src/Connection.cpp
   src/ConnectionBlurEffect.cpp
   src/ConnectionGeometry.cpp
   src/ConnectionGraphicsObject.cpp
@@ -55,12 +55,12 @@ set(CPP_SOURCE_FILES
   src/ConnectionState.cpp
   src/ConnectionStyle.cpp
   src/DataModelRegistry.cpp
-  src/FlowScene.cpp
-  src/FlowView.cpp
-  src/FlowViewStyle.cpp
+  src/GraphicsScene.cpp
+  src/GraphicsView.cpp
+  src/GraphicsViewStyle.cpp
   src/GraphModel.cpp
-  src/Node.cpp
-  src/NodeConnectionInteraction.cpp
+  #src/Node.cpp
+  #src/NodeConnectionInteraction.cpp
   src/NodeDataModel.cpp
   src/NodeGeometry.cpp
   src/NodeGraphicsObject.cpp
@@ -73,12 +73,10 @@ set(CPP_SOURCE_FILES
 
 # If we want to give the option to build a static library,
 # set BUILD_SHARED_LIBS option to OFF
+add_library(nodes ${CPP_SOURCE_FILES} ${RESOURCES})
+
 add_library(NodeEditor::nodes ALIAS nodes)
 
-target_sources(nodes
-  ${CPP_SOURCE_FILES}
-  ${RESOURCES}
-)
 
 target_include_directories(nodes
   PUBLIC

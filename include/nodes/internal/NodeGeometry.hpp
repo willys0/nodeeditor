@@ -23,10 +23,11 @@ public:
 
 public:
   QSize size();
-  void setSize(QSize s);
+  //void setSize(QSize s);
 
-  unsigned int entryHeight() const { return _entryHeight; }
-  unsigned int verticalSpacing() const { return _verticalSpacing; }
+  unsigned int entryHeight() const;
+
+  unsigned int verticalSpacing() const;
 
   bool hovered() const;
   void setHovered(bool hovered);
@@ -38,18 +39,18 @@ public:
   QRectF boundingRect() const;
 
   /// Updates size unconditionally
-  void recalculateSize() const;
+  QSize recalculateSize() const;
 
   /// Updates size if the QFontMetrics is changed
-  void recalculateSize(QFont const & font) const;
+  QSize recalculateSize(QFont const & font) const;
 
   // TODO removed default QTransform()
   QPointF portScenePosition(PortIndex index,
-                            PortType  portType,
+                            PortType portType,
                             QTransform const & t = QTransform()) const;
 
   PortIndex checkHitScenePoint(PortType portType,
-                               QPointF  point,
+                               QPointF point,
                                QTransform const & t = QTransform()) const;
 
   QRect resizeRect() const;
@@ -86,6 +87,9 @@ private:
   // corresponding to fontMetrics
   // but this doesn't change constness of Node
 
+  mutable QFontMetrics _fontMetrics;
+  mutable QFontMetrics _boldFontMetrics;
+
   unsigned int _entryWidth;
   mutable unsigned int _defaultInPortWidth;
   mutable unsigned int _defaultOutPortWidth;
@@ -101,7 +105,5 @@ private:
 
   std::unique_ptr<NodeDataModel> const & _dataModel;
 
-  mutable QFontMetrics _fontMetrics;
-  mutable QFontMetrics _boldFontMetrics;
 };
 }

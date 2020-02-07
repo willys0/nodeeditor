@@ -18,33 +18,23 @@ public:
 
 public:
 
-  QPointF const&
-  getEndPoint(PortType portType) const;
+  QPointF const & getEndPoint(PortType portType) const;
 
-  void
-  setEndPoint(PortType portType, QPointF const& point);
+  void setEndPoint(PortType portType, QPointF const & point);
 
-  void
-  moveEndPoint(PortType portType, QPointF const &offset);
+  void moveEndPoint(PortType portType, QPointF const & offset);
 
-  QRectF
-  boundingRect() const;
+  QRectF boundingRect() const;
 
-  std::pair<QPointF, QPointF>
-  pointsC1C2() const;
+  std::pair<QPointF, QPointF>pointsC1C2() const;
 
-  QPointF
-  source() const { return _out; }
-  QPointF
-  sink() const { return _in; }
+  QPointF source() const { return _out; }
+  QPointF sink() const { return _in; }
 
-  double
-  lineWidth() const { return _lineWidth; }
+  double lineWidth() const { return _lineWidth; }
 
-  bool
-  hovered() const { return _hovered; }
-  void
-  setHovered(bool hovered) { _hovered = hovered; }
+  bool hovered() const { return _hovered; }
+  void setHovered(bool hovered) { _hovered = hovered; }
 
 private:
   // local object coordinates

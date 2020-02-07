@@ -1,8 +1,11 @@
 #pragma once
 
-#include <QtCore/QUuid>
+#include <utility>
 
+#include <QtCore/QUuid>
 #include <QtWidgets/QGraphicsObject>
+
+#include "Definitions.hpp"
 
 class QGraphicsSceneMouseEvent;
 
@@ -12,7 +15,6 @@ namespace QtNodes
 class FlowScene;
 class Connection;
 class ConnectionGeometry;
-class Node;
 
 /// Graphic Object for connection. Adds itself to scene
 class ConnectionGraphicsObject

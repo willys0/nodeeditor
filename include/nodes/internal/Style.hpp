@@ -9,8 +9,7 @@ class Style
 {
 public:
 
-  virtual
-  ~Style() = default;
+  virtual ~Style() = default;
 
 private:
 
@@ -21,7 +20,7 @@ private:
   void loadJsonFile(QString fileName) = 0;
 
   virtual
-  void loadJsonFromByteArray(QByteArray const &byteArray) = 0;
+  void loadJsonFromByteArray(QByteArray const & byteArray) = 0;
 };
 
 }

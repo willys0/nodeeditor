@@ -1,4 +1,4 @@
-#include "FlowViewStyle.hpp"
+#include "GraphicsViewStyle.hpp"
 
 #include <QtCore/QFile>
 #include <QtCore/QJsonDocument>
@@ -10,12 +10,13 @@
 
 #include "StyleCollection.hpp"
 
-using QtNodes::FlowViewStyle;
+using QtNodes::GraphicsViewStyle;
 
-inline void initResources() { Q_INIT_RESOURCE(resources); }
+inline void
+initResources() { Q_INIT_RESOURCE(resources); }
 
-FlowViewStyle::
-FlowViewStyle()
+GraphicsViewStyle::
+GraphicsViewStyle()
 {
   // Explicit resources inialization for preventing the static initialization
   // order fiasco: https://isocpp.org/wiki/faq/ctors#static-init-order
@@ -26,29 +27,29 @@ FlowViewStyle()
 }
 
 
-FlowViewStyle::
-FlowViewStyle(QString jsonText)
+GraphicsViewStyle::
+GraphicsViewStyle(QString jsonText)
 {
   loadJsonText(jsonText);
 }
 
 
 void
-FlowViewStyle::
+GraphicsViewStyle::
 setStyle(QString jsonText)
 {
-  FlowViewStyle style(jsonText);
+  GraphicsViewStyle style(jsonText);
 
-  StyleCollection::setFlowViewStyle(style);
+  StyleCollection::setGraphicsViewStyle(style);
 }
 
 
 #ifdef STYLE_DEBUG
   #define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable) { \
-      if (v.type() == QJsonValue::Undefined || \
-          v.type() == QJsonValue::Null) \
-        qWarning() << "Undefined value for parameter:" << #variable; \
-  }
+    if (v.type() == QJsonValue::Undefined || \
+        v.type() == QJsonValue::Null) \
+    qWarning () << "Undefined value for parameter:" << #variable; \
+}
 #else
   #define FLOW_VIEW_STYLE_CHECK_UNDEFINED_VALUE(v, variable)
 #endif
@@ -69,7 +70,7 @@ setStyle(QString jsonText)
 }
 
 void
-FlowViewStyle::
+GraphicsViewStyle::
 loadJsonFile(QString styleFile)
 {
   QFile file(styleFile);
@@ -86,7 +87,7 @@ loadJsonFile(QString styleFile)
 
 
 void
-FlowViewStyle::
+GraphicsViewStyle::
 loadJsonText(QString jsonText)
 {
   loadJsonFromByteArray(jsonText.toUtf8());
@@ -94,14 +95,14 @@ loadJsonText(QString jsonText)
 
 
 void
-FlowViewStyle::
-loadJsonFromByteArray(QByteArray const &byteArray)
+GraphicsViewStyle::
+loadJsonFromByteArray(QByteArray const & byteArray)
 {
   QJsonDocument json(QJsonDocument::fromJson(byteArray));
 
   QJsonObject topLevelObject = json.object();
 
-  QJsonValueRef nodeStyleValues = topLevelObject["FlowViewStyle"];
+  QJsonValueRef nodeStyleValues = topLevelObject["GraphicsViewStyle"];
 
   QJsonObject obj = nodeStyleValues.toObject();
 
@@ -109,3 +110,4 @@ loadJsonFromByteArray(QByteArray const &byteArray)
   FLOW_VIEW_STYLE_READ_COLOR(obj, FineGridColor);
   FLOW_VIEW_STYLE_READ_COLOR(obj, CoarseGridColor);
 }
+

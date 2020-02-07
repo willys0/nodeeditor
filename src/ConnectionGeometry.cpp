@@ -16,7 +16,8 @@ ConnectionGeometry()
   , _hovered(false)
 { }
 
-QPointF const&
+
+QPointF const &
 ConnectionGeometry::
 getEndPoint(PortType portType) const
 {
@@ -30,7 +31,7 @@ getEndPoint(PortType portType) const
 
 void
 ConnectionGeometry::
-setEndPoint(PortType portType, QPointF const& point)
+setEndPoint(PortType portType, QPointF const & point)
 {
   switch (portType)
   {
@@ -50,7 +51,7 @@ setEndPoint(PortType portType, QPointF const& point)
 
 void
 ConnectionGeometry::
-moveEndPoint(PortType portType, QPointF const &offset)
+moveEndPoint(PortType portType, QPointF const & offset)
 {
   switch (portType)
   {
@@ -78,7 +79,7 @@ boundingRect() const
 
   QRectF c1c2Rect = QRectF(points.first, points.second).normalized();
 
-  auto const &connectionStyle =
+  auto const & connectionStyle =
     StyleCollection::connectionStyle();
 
   float const diam = connectionStyle.pointDiameter();
@@ -129,3 +130,4 @@ pointsC1C2() const
 
   return std::make_pair(c1, c2);
 }
+

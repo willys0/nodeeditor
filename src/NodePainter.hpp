@@ -6,7 +6,7 @@ namespace QtNodes
 {
 
 class FlowItemEntry;
-class FlowScene;
+class GraphicsScene;
 class GraphModel;
 class Node;
 class NodeGeometry;
@@ -24,8 +24,8 @@ public:
 
   static
   void paint(QPainter * painter,
-             Node & node,
-             FlowScene const & scene);
+             NodeId node,
+             GraphicsScene const & scene);
 
   static
   void drawNodeRect(QPainter * painter,
@@ -50,7 +50,7 @@ public:
                             NodeGeometry const &  geom,
                             NodeState const &     state,
                             NodeDataModel const * model,
-                            FlowScene const &     scene);
+                            GraphicsScene const &     scene);
 
   static
   void drawFilledConnectionPoints(QPainter * painter,

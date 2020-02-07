@@ -2,7 +2,7 @@
 
 #include "NodeStyle.hpp"
 #include "ConnectionStyle.hpp"
-#include "FlowViewStyle.hpp"
+#include "GraphicsViewStyle.hpp"
 
 namespace QtNodes
 {
@@ -15,10 +15,10 @@ public:
   NodeStyle const & nodeStyle();
 
   static
-  ConnectionStyle const& connectionStyle();
+  ConnectionStyle const & connectionStyle();
 
   static
-  FlowViewStyle const& flowViewStyle();
+  GraphicsViewStyle const & flowViewStyle();
 
 public:
 
@@ -29,15 +29,15 @@ public:
   void setConnectionStyle(ConnectionStyle);
 
   static
-  void setFlowViewStyle(FlowViewStyle);
+  void setGraphicsViewStyle(GraphicsViewStyle);
 
 private:
 
   StyleCollection() = default;
 
-  StyleCollection(StyleCollection const&) = delete;
+  StyleCollection(StyleCollection const &) = delete;
 
-  StyleCollection & operator=(StyleCollection const&) = delete;
+  StyleCollection & operator=(StyleCollection const &) = delete;
 
   static
   StyleCollection & instance();
@@ -48,6 +48,6 @@ private:
 
   ConnectionStyle _connectionStyle;
 
-  FlowViewStyle _flowViewStyle;
+  GraphicsViewStyle _flowViewStyle;
 };
 }

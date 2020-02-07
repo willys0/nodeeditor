@@ -25,19 +25,14 @@ class NodeGraphicsObject;
 class NodeStyle;
 
 /// Scene holds connections and nodes.
-class NODE_EDITOR_PUBLIC NodeGraphicsScene : public QGraphicsScene
+class NODE_EDITOR_PUBLIC GraphicsScene : public QGraphicsScene
 {
   Q_OBJECT
 public:
 
-  //NodeGraphicsScene(std::shared_ptr<DataModelRegistry> registry,
-  //QObject * parent = Q_NULLPTR);
+  GraphicsScene(GraphModel & graphModel);
 
-  NodeGraphicsScene(GraphiModel & graphModel);
-
-  NodeGraphicsScene(QObject * parent = Q_NULLPTR);
-
-  ~NodeGraphicsScene();
+  ~GraphicsScene();
 
 public:
 

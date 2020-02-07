@@ -4,7 +4,7 @@
 
 #include <QtCore/QMargins>
 
-#include "FlowScene.hpp"
+#include "GraphicsScene.hpp"
 #include "Node.hpp"
 #include "NodeDataModel.hpp"
 #include "NodeGeometry.hpp"
@@ -13,7 +13,7 @@
 #include "PortType.hpp"
 #include "StyleCollection.hpp"
 
-using QtNodes::FlowScene;
+using QtNodes::GraphicsScene;
 using QtNodes::GraphModel;
 using QtNodes::Node;
 using QtNodes::NodeGeometry;
@@ -24,10 +24,10 @@ using QtNodes::NodeState;
 void
 NodePainter::
 paint(QPainter * painter,
-      Node & node,
-      FlowScene const & scene)
+      NodeId nodeId,
+      GraphicsScene const & scene)
 {
-  NodeGeometry const & geom = node.nodeGeometry();
+  NodeGeometry geom(nodeId, scene.graphModel());
 
   NodeState const & state = node.nodeState();
 
@@ -69,9 +69,9 @@ drawNodeRect(QPainter * painter,
 {
   NodeStyle const & nodeStyle = model->nodeStyle();
 
-  auto color = graphicsObject.isSelected()
-               ? nodeStyle.SelectedBoundaryColor
-               : nodeStyle.NormalBoundaryColor;
+  auto color = graphicsObject.isSelected() ?
+               nodeStyle.SelectedBoundaryColor :
+               nodeStyle.NormalBoundaryColor;
 
   if (geom.hovered())
   {
@@ -96,7 +96,9 @@ drawNodeRect(QPainter * painter,
 
   float diam = nodeStyle.ConnectionPointDiameter;
 
-  QRectF boundary(-diam, -diam, 2.0 * diam + geom.width(), 2.0 * diam + geom.height());
+  QRectF boundary(-diam, -diam,
+                  2.0 * diam + geom.width(),
+                  2.0 * diam + geom.height());
 
   double const radius = 3.0;
 
@@ -110,7 +112,7 @@ drawConnectionPoints(QPainter * painter,
                      NodeGeometry const &  geom,
                      NodeState const &     state,
                      NodeDataModel const * model,
-                     FlowScene const &     scene)
+                     GraphicsScene const & scene)
 {
   NodeStyle const & nodeStyle      = model->nodeStyle();
   auto const     & connectionStyle = StyleCollection::connectionStyle();
@@ -138,8 +140,8 @@ drawConnectionPoints(QPainter * painter,
           portType == state.reactingPortType())
       {
 
-        auto diff            = geom.draggingPos() - p;
-        double dist          = std::sqrt(QPointF::dotProduct(diff, diff));
+        auto diff   = geom.draggingPos() - p;
+        double dist = std::sqrt(QPointF::dotProduct(diff, diff));
         bool typeConvertable = false;
 
         {
@@ -413,3 +415,4 @@ drawValidationRect(QPainter * painter,
     painter->drawText(position, errorMsg);
   }
 }
+

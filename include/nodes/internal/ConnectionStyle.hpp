@@ -26,7 +26,7 @@ private:
 
   void loadJsonFile(QString fileName) override;
 
-  void loadJsonFromByteArray(QByteArray const &byteArray) override;
+  void loadJsonFromByteArray(QByteArray const & byteArray) override;
 
 public:
 

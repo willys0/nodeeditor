@@ -1,7 +1,6 @@
 #pragma once
 
-#include <numeric_limits>
-
+#include <limits>
 
 namespace QtNodes
 {
@@ -21,13 +20,23 @@ enum class NodeRole
 Q_ENUM_NS(NodeRole)
 
 
+enum class NodeFlags
+{
+  Resizable = 0x0,
+};
+//Q_DECLARE_FLAGS(NodeFlags, NodeFlags)
+Q_FLAG_NS(NodeFlags)
+
+//Q_DECLARE_OPERATORS_FOR_FLAGS(NodeFlags)
+
+
 enum class PortRole
 {
   Data             = 0,
   DataType         = 1,
   ConnectionPolicy = 2,
   Caption          = 3,
-} :
+};
 Q_ENUM_NS(PortRole)
 
 
@@ -48,15 +57,43 @@ enum class PortType
 Q_ENUM_NS(PortType)
 
 
+
+inline
+PortType
+oppositePort(PortType port)
+{
+  PortType result = PortType::None;
+
+  switch (port)
+  {
+    case PortType::In:
+      result = PortType::Out;
+      break;
+
+    case PortType::Out:
+      result = PortType::In;
+      break;
+
+    case PortType::None:
+      result = PortType::None;
+      break;
+
+    default:
+      break;
+  }
+  return result;
+}
+
+
 using NodeId = std::size_t;
 
-static constexpr InvalidNodeId =
+static constexpr NodeId InvalidNodeId =
   std::numeric_limits<NodeId>::max();
 
 
 using PortIndex = std::size_t;
 
-static constexpr InvalidPortIndex =
+static constexpr PortIndex InvalidPortIndex =
   std::numeric_limits<PortIndex>::max();
 
 
