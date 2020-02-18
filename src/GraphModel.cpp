@@ -21,12 +21,22 @@ allNodeIds() const
 
 std::unordered_set<NodeId>
 GraphModel::
-connectedNodes(NodeId const & node,
+connectedNodes(NodeId nodeId,
                PortType portType,
                PortIndex index) const
 {
   // No connected nodes in the default implementation.
   return std::unordered_set<NodeId>();
+}
+  void 
+GraphModel::
+  setConnectedNodes(NodeId nodeId0,
+                         PortType  portType0,
+                         PortIndex index0,
+                         NodeId    nodeId1,
+                         PortIndex index1)
+{
+  //
 }
 
 

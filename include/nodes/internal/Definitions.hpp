@@ -2,6 +2,8 @@
 
 #include <limits>
 
+#include <QtCore/QMetaObject>
+
 namespace QtNodes
 {
 Q_NAMESPACE

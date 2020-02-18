@@ -52,7 +52,7 @@ set(CPP_SOURCE_FILES
   src/ConnectionGeometry.cpp
   src/ConnectionGraphicsObject.cpp
   src/ConnectionPainter.cpp
-  src/ConnectionState.cpp
+  #src/ConnectionState.cpp
   src/ConnectionStyle.cpp
   src/DataModelRegistry.cpp
   src/GraphicsScene.cpp
@@ -65,7 +65,7 @@ set(CPP_SOURCE_FILES
   src/NodeGeometry.cpp
   src/NodeGraphicsObject.cpp
   src/NodePainter.cpp
-  src/NodeState.cpp
+  #src/NodeState.cpp
   src/NodeStyle.cpp
   src/Properties.cpp
   src/StyleCollection.cpp

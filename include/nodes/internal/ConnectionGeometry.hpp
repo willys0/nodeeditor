@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PortType.hpp"
+#include "Definitions.hpp"
 
 #include <QtCore/QPointF>
 #include <QtCore/QRectF>

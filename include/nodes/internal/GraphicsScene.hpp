@@ -153,7 +153,7 @@ private:
 
 
   using UniqueNodeGraphicsObject =
-    std::unique_ptr<NodeGraphicsObject>();
+    std::unique_ptr<NodeGraphicsObject>;
 
   using UniqueConnectionGraphicsObject =
     std::unique_ptr<ConnectionGraphicsObject>;

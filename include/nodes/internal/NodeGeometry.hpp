@@ -5,16 +5,16 @@
 #include <QtGui/QTransform>
 #include <QtGui/QFontMetrics>
 
-#include "PortType.hpp"
 #include "Export.hpp"
+#include "Definitions.hpp"
+
 #include "memory.hpp"
 
 namespace QtNodes
 {
 
-class NodeState;
+class GraphModel;
 class NodeDataModel;
-class Node;
 
 class NODE_EDITOR_PUBLIC NodeGeometry
 {
@@ -46,11 +46,11 @@ public:
 
   // TODO removed default QTransform()
   QPointF portScenePosition(PortIndex index,
-                            PortType portType,
+                            PortType  portType,
                             QTransform const & t = QTransform()) const;
 
   PortIndex checkHitScenePoint(PortType portType,
-                               QPointF point,
+                               QPointF  point,
                                QTransform const & t = QTransform()) const;
 
   QRect resizeRect() const;
@@ -65,10 +65,10 @@ public:
 
   unsigned int validationWidth() const;
 
-  static
-  QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node * targetNode,
-                                                PortIndex sourcePortIndex, PortType sourcePort, Node * sourceNode,
-                                                Node & newNode);
+  //static
+  //QPointF calculateNodePositionBetweenNodePorts(PortIndex targetPortIndex, PortType targetPort, Node * targetNode,
+                                                //PortIndex sourcePortIndex, PortType sourcePort, Node * sourceNode,
+                                                //Node & newNode);
 private:
 
   unsigned int captionHeight() const;

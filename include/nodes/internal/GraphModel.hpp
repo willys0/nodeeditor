@@ -5,8 +5,8 @@
 #include "PortType.hpp"
 #include "Definitions.hpp"
 
+#include <limits>
 #include <unordered_set>
-#include <numeric_limits>
 
 namespace QtNodes
 {
@@ -26,9 +26,16 @@ public:
 
   /// @brief Returns all connected Node Ids for given port.
   virtual
-  std::unordered_set<NodeId> connectedNodes(NodeId const & node,
+  std::unordered_set<NodeId> connectedNodes(NodeId nodeId,
                                             PortType portType,
                                             PortIndex index) const;
+
+  virtual
+  void setConnectedNodes(NodeId nodeId0,
+                         PortType  portType0,
+                         PortIndex index0,
+                         NodeId    nodeId1,
+                         PortIndex index1);
 
   /// @brief Returns node-related data for requested NodeRole.
   /**

@@ -12,7 +12,7 @@ class QGraphicsSceneMouseEvent;
 namespace QtNodes
 {
 
-class FlowScene;
+class GraphicsScene;
 class Connection;
 class ConnectionGeometry;
 
@@ -26,8 +26,8 @@ public:
 
   using ConnectionId = std::pair<NodeId, NodeId>;
 
-  ConnectionGraphicsObject(FlowScene &    scene,
-                           ConnectionId connectionId);
+  ConnectionGraphicsObject(GraphicsScene & scene,
+                           ConnectionId    connectionId);
 
   virtual ~ConnectionGraphicsObject();
 
@@ -36,7 +36,7 @@ public:
 
 public:
 
-  Connection & connection();
+  ConnectionId connectionId();
 
   QRectF boundingRect() const override;
 
@@ -51,9 +51,9 @@ public:
 
 protected:
 
-  void paint(QPainter *                       painter,
+  void paint(QPainter * painter,
              QStyleOptionGraphicsItem const * option,
-             QWidget *                        widget = 0) override;
+             QWidget *  widget = 0) override;
 
   void mousePressEvent(QGraphicsSceneMouseEvent * event) override;
 
@@ -71,7 +71,7 @@ private:
 
 private:
 
-  FlowScene & _scene;
+  GraphicsScene & _scene;
 
   ConnectionId _connectionId;
 };
