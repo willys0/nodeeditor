@@ -24,6 +24,16 @@ class ConnectionGraphicsObject
 
 public:
 
+  /// Defines whether we construct a new connection
+  /// or it is already binding two nodes.
+  enum State
+  {
+    Pending   = 0,
+    Connected = 1
+  };
+
+public:
+
   using ConnectionId = std::pair<NodeId, NodeId>;
 
   ConnectionGraphicsObject(GraphicsScene & scene,
@@ -42,12 +52,20 @@ public:
 
   QPainterPath shape() const override;
 
+  QPointF const & getEndPoint(PortType portType) const;
+
+  void setEndPoint(PortType portType, QPointF const & point);
+
+  void moveEndPointBy(PortType portType, QPointF const & offset);
+
+
   void setGeometryChanged();
 
   /// Updates the position of both ends
   void move();
 
   void lock(bool locked);
+
 
 protected:
 
@@ -67,6 +85,10 @@ protected:
 
 private:
 
+  std::pair<QPointF, QPointF> pointsC1C2() const;
+
+private:
+
   void addGraphicsEffect();
 
 private:
@@ -74,5 +96,13 @@ private:
   GraphicsScene & _scene;
 
   ConnectionId _connectionId;
+
+  State _state;
+
+  QPointF _in;
+  QPointF _out;
+
+  bool _hovered;
+
 };
 }

@@ -9,7 +9,6 @@
 #include "GraphicsScene.hpp"
 
 #include "Connection.hpp"
-#include "ConnectionGeometry.hpp"
 #include "ConnectionPainter.hpp"
 #include "ConnectionState.hpp"
 #include "ConnectionBlurEffect.hpp"
@@ -20,15 +19,20 @@
 
 #include "Node.hpp"
 
+using ConnectionId = ConnectionGraphicsObject::ConnectionId;
 using QtNodes::ConnectionGraphicsObject;
-using QtNodes::ConnectionId;
 using QtNodes::GraphicsScene;
+
 
 ConnectionGraphicsObject::
 ConnectionGraphicsObject(GraphicsScene & scene,
                          ConnectionId    connectionId)
   : _scene(scene)
   , _connectionId(connectionId)
+  , _state(State::Pending)
+  , _in(0, 0)
+  , _out(0, 0)
+  , _hovered(false)
 {
   _scene.addItem(this);
 
@@ -63,7 +67,24 @@ QRectF
 ConnectionGraphicsObject::
 boundingRect() const
 {
-  return _connection.connectionGeometry().boundingRect();
+  auto points = pointsC1C2();
+
+  // `normalized()` fixes inverted rects.
+  QRectF basicRect = QRectF(_out, _in).normalized();
+
+  QRectF c1c2Rect = QRectF(points.first, points.second).normalized();
+
+  QRectF commonRect = basicRect.united(c1c2Rect);
+
+  auto const & connectionStyle = StyleCollection::connectionStyle();
+  float const diam = connectionStyle.pointDiameter();
+  QPointF const cornerOffset(diam, diam);
+
+  // Expand rect by port circle diameter
+  commonRect.setTopLeft(commonRect.topLeft() - cornerOffset);
+  commonRect.setBottomRight(commonRect.bottomRight() + 2 * cornerOffset);
+
+  return commonRect;
 }
 
 
@@ -85,6 +106,58 @@ shape() const
   return ConnectionPainter::getPainterStroke(geom);
 
 #endif
+}
+
+
+QPointF const &
+ConnectionGraphicsObject::
+getEndPoint(PortType portType) const
+{
+  Q_ASSERT(portType != PortType::None);
+
+  return (portType == PortType::Out ?
+          _out :
+          _in);
+}
+
+
+void
+ConnectionGraphicsObject::
+setEndPoint(PortType portType, QPointF const & point)
+{
+  switch (portType)
+  {
+    case PortType::Out:
+      _out = point;
+      break;
+
+    case PortType::In:
+      _in = point;
+      break;
+
+    default:
+      break;
+  }
+}
+
+
+void
+ConnectionGraphicsObject::
+moveEndPointBy(PortType portType, QPointF const & offset)
+{
+  switch (portType)
+  {
+    case PortType::Out:
+      _out += offset;
+      break;
+
+    case PortType::In:
+      _in += offset;
+      break;
+
+    default:
+      break;
+  }
 }
 
 
@@ -245,6 +318,43 @@ hoverLeaveEvent(QGraphicsSceneHoverEvent * event)
   update();
   _scene.connectionHoverLeft(connection());
   event->accept();
+}
+
+
+std::pair<QPointF, QPointF>
+ConnectionGraphicsObject::
+pointsC1C2() const
+{
+  const double defaultOffset = 200;
+
+  double xDistance = _in.x() - _out.x();
+
+  double horizontalOffset = qMin(defaultOffset, std::abs(xDistance));
+
+  double verticalOffset = 0;
+
+  double ratioX = 0.5;
+
+  if (xDistance <= 0)
+  {
+    double yDistance = _in.y() - _out.y() + 20;
+
+    double vector = yDistance < 0 ? -1.0 : 1.0;
+
+    verticalOffset = qMin(defaultOffset, std::abs(yDistance)) * vector;
+
+    ratioX = 1.0;
+  }
+
+  horizontalOffset *= ratioX;
+
+  QPointF c1(_out.x() + horizontalOffset,
+             _out.y() + verticalOffset);
+
+  QPointF c2(_in.x() - horizontalOffset,
+             _in.y() - verticalOffset);
+
+  return std::make_pair(c1, c2);
 }
 
 

@@ -28,13 +28,15 @@ connectedNodes(NodeId nodeId,
   // No connected nodes in the default implementation.
   return std::unordered_set<NodeId>();
 }
-  void 
+
+
+void
 GraphModel::
-  setConnectedNodes(NodeId nodeId0,
-                         PortType  portType0,
-                         PortIndex index0,
-                         NodeId    nodeId1,
-                         PortIndex index1)
+setConnectedNodes(NodeId nodeId0,
+                  PortType  portType0,
+                  PortIndex index0,
+                  NodeId    nodeId1,
+                  PortIndex index1)
 {
   //
 }
@@ -105,9 +107,9 @@ setNodeData(NodeId nodeId, NodeRole role, QVariant value)
 QVariant
 GraphModel::
 portData(NodeId nodeId,
-         PortType portType,
+         PortType  portType,
          PortIndex index,
-         PortRole role) const
+         PortRole  role) const
 {
   switch (role)
   {
@@ -137,9 +139,9 @@ portData(NodeId nodeId,
 bool
 GraphModel::
 setPortData(NodeId nodeId,
-            PortType portType,
+            PortType  portType,
             PortIndex index,
-            PortRole role) const
+            PortRole  role) const
 {
   return false;
 }
