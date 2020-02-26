@@ -9,7 +9,7 @@
 
 #include "Serializable.hpp"
 #include "ConnectionState.hpp"
-#include "ConnectionGeometry.hpp"
+//#include "ConnectionGeometry.hpp"
 #include "TypeConverter.hpp"
 #include "QUuidStdHash.hpp"
 #include "Export.hpp"
@@ -89,16 +89,12 @@ public:
   ConnectionGraphicsObject&
   getConnectionGraphicsObject() const;
 
-  ConnectionState const &
-  connectionState() const;
-  ConnectionState&
-  connectionState();
 
-  ConnectionGeometry&
-  connectionGeometry();
+  //ConnectionGeometry&
+  //connectionGeometry();
 
-  ConnectionGeometry const&
-  connectionGeometry() const;
+  //ConnectionGeometry const&
+  //connectionGeometry() const;
 
   Node*
   getNode(PortType portType) const;
@@ -151,8 +147,7 @@ private:
 
 private:
 
-  ConnectionState _connectionState;
-  ConnectionGeometry _connectionGeometry;
+  //ConnectionGeometry _connectionGeometry;
 
   std::unique_ptr<ConnectionGraphicsObject> _connectionGraphicsObject;
 

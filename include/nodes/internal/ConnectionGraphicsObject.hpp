@@ -6,6 +6,7 @@
 #include <QtWidgets/QGraphicsObject>
 
 #include "Definitions.hpp"
+#include "ConnectionState.hpp"
 
 class QGraphicsSceneMouseEvent;
 
@@ -66,6 +67,10 @@ public:
 
   void lock(bool locked);
 
+  ConnectionState const & connectionState() const;
+  ConnectionState & connectionState();
+
+  std::array<QPointF, 2> inOut() const { return _inOut; }
 
 protected:
 
@@ -85,22 +90,21 @@ protected:
 
 private:
 
-  std::pair<QPointF, QPointF> pointsC1C2() const;
-
-private:
-
   void addGraphicsEffect();
+
+  std::pair<QPointF, QPointF> pointsC1C2() const;
 
 private:
 
   GraphicsScene & _scene;
 
+  ConnectionState _connectionState;
+
   ConnectionId _connectionId;
 
   State _state;
 
-  QPointF _in;
-  QPointF _out;
+  std::array<QPointF, 2> _inOut;
 
   bool _hovered;
 

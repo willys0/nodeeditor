@@ -28,10 +28,10 @@ ConnectionGraphicsObject::
 ConnectionGraphicsObject(GraphicsScene & scene,
                          ConnectionId    connectionId)
   : _scene(scene)
+  , _connectionState()
   , _connectionId(connectionId)
   , _state(State::Pending)
-  , _in(0, 0)
-  , _out(0, 0)
+  , _inOut{{0, 0}, {0, 0}}
   , _hovered(false)
 {
   _scene.addItem(this);

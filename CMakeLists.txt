@@ -5,6 +5,8 @@ project(NodeEditor CXX)
 
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
+set(CMAKE_DISABLE_SOURCE_CHANGES  ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 get_directory_property(_has_parent PARENT_DIRECTORY)
 if(_has_parent)
@@ -49,7 +51,7 @@ set(CMAKE_AUTOMOC ON)
 set(CPP_SOURCE_FILES
   #src/Connection.cpp
   src/ConnectionBlurEffect.cpp
-  src/ConnectionGeometry.cpp
+  #src/ConnectionGeometry.cpp
   src/ConnectionGraphicsObject.cpp
   src/ConnectionPainter.cpp
   #src/ConnectionState.cpp

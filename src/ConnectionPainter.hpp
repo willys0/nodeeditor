@@ -1,25 +1,24 @@
 #pragma once
 
 #include <QtGui/QPainter>
+#include <QtGui/QPainterPath>
 
 namespace QtNodes
 {
 
 class ConnectionGeometry;
-class ConnectionState;
-class Connection;
+class ConnectionGraphicsObject;
 
 class ConnectionPainter
 {
 public:
 
   static
-  void
-  paint(QPainter* painter,
-        Connection const& connection);
+  void paint(QPainter * painter,
+             ConnectionGraphicsObject const & connection);
 
   static
-  QPainterPath
-  getPainterStroke(ConnectionGeometry const& geom);
+  QPainterPath getPainterStroke(ConnectionGraphicsObject const & connection);
 };
+
 }

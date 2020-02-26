@@ -15,7 +15,7 @@
 #include "NodeDataModel.hpp"
 
 #include "ConnectionState.hpp"
-#include "ConnectionGeometry.hpp"
+//#include "ConnectionGeometry.hpp"
 #include "ConnectionGraphicsObject.hpp"
 
 using QtNodes::Connection;
@@ -26,7 +26,7 @@ using QtNodes::Node;
 using QtNodes::NodeData;
 using QtNodes::NodeDataType;
 using QtNodes::ConnectionGraphicsObject;
-using QtNodes::ConnectionGeometry;
+//using QtNodes::ConnectionGeometry;
 using QtNodes::TypeConverter;
 
 Connection::
@@ -36,7 +36,6 @@ Connection(PortType  portType,
   : _uid(QUuid::createUuid())
   , _outPortIndex(INVALID)
   , _inPortIndex(INVALID)
-  , _connectionState()
 {
   setNodeToPort(node, portType, portIndex);
 
@@ -55,7 +54,6 @@ Connection(Node&         nodeIn,
   , _inNode(&nodeIn)
   , _outPortIndex(portIndexOut)
   , _inPortIndex(portIndexIn)
-  , _connectionState()
   , _converter(std::move(typeConverter))
 {
   setNodeToPort(nodeIn,  PortType::In,  portIndexIn);
@@ -295,20 +293,20 @@ connectionState() const
 }
 
 
-ConnectionGeometry&
-Connection::
-connectionGeometry()
-{
-  return _connectionGeometry;
-}
+//ConnectionGeometry&
+//Connection::
+//connectionGeometry()
+//{
+  //return _connectionGeometry;
+//}
 
 
-ConnectionGeometry const&
-Connection::
-connectionGeometry() const
-{
-  return _connectionGeometry;
-}
+//ConnectionGeometry const&
+//Connection::
+//connectionGeometry() const
+//{
+  //return _connectionGeometry;
+//}
 
 
 Node*
