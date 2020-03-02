@@ -11,7 +11,9 @@
 #include "Connection.hpp"
 #include "ConnectionPainter.hpp"
 #include "ConnectionState.hpp"
-#include "ConnectionBlurEffect.hpp"
+#include "ConnectionStyle.hpp"
+#include "StyleCollection.hpp"
+//#include "ConnectionBlurEffect.hpp"
 
 #include "NodeGraphicsObject.hpp"
 
@@ -19,9 +21,11 @@
 
 #include "Node.hpp"
 
-using ConnectionId = ConnectionGraphicsObject::ConnectionId;
 using QtNodes::ConnectionGraphicsObject;
+using QtNodes::ConnectionStyle;
 using QtNodes::GraphicsScene;
+using QtNodes::StyleCollection;
+using ConnectionId = ConnectionGraphicsObject::ConnectionId;
 
 
 ConnectionGraphicsObject::
@@ -31,7 +35,8 @@ ConnectionGraphicsObject(GraphicsScene & scene,
   , _connectionState()
   , _connectionId(connectionId)
   , _state(State::Pending)
-  , _inOut{{0, 0}, {0, 0}}
+  , _in{0, 0}
+  , _out{0, 0}
   , _hovered(false)
 {
   _scene.addItem(this);
@@ -100,18 +105,14 @@ shape() const
   //return path;
 
 #else
-  auto const & geom =
-    _connectionId.connectionGeometry();
-
-  return ConnectionPainter::getPainterStroke(geom);
-
+  return ConnectionPainter::getPainterStroke(*this);
 #endif
 }
 
 
 QPointF const &
 ConnectionGraphicsObject::
-getEndPoint(PortType portType) const
+endPoint(PortType portType) const
 {
   Q_ASSERT(portType != PortType::None);
 
@@ -125,19 +126,8 @@ void
 ConnectionGraphicsObject::
 setEndPoint(PortType portType, QPointF const & point)
 {
-  switch (portType)
-  {
-    case PortType::Out:
-      _out = point;
-      break;
-
-    case PortType::In:
-      _in = point;
-      break;
-
-    default:
-      break;
-  }
+  QPointF & p = endPoint(portType);
+  p = point;
 }
 
 
@@ -145,19 +135,8 @@ void
 ConnectionGraphicsObject::
 moveEndPointBy(PortType portType, QPointF const & offset)
 {
-  switch (portType)
-  {
-    case PortType::Out:
-      _out += offset;
-      break;
-
-    case PortType::In:
-      _in += offset;
-      break;
-
-    default:
-      break;
-  }
+  QPointF & p = endPoint(portType);
+  p += offset;
 }
 
 
@@ -175,6 +154,15 @@ move()
 {
   for (PortType portType: { PortType::In, PortType::Out })
   {
+    NodeId const nodeId = (portType == PortType::Out) ?
+                          _connectionId.first :
+                          _connectionId.second;
+
+    if (nodeId == InvalidNodeId)
+      continue;
+
+    GraphModel & graphModel = _scene.graphModel();
+
     if (auto node = _connectionId.getNode(portType))
     {
       auto const & nodeGraphics = node->nodeGraphicsObject();
@@ -190,8 +178,7 @@ move()
 
       QPointF connectionPos = sceneTransform.inverted().map(scenePos);
 
-      _connectionId.connectionGeometry().setEndPoint(portType,
-                                                     connectionPos);
+      _connectionId.setEndPoint(portType, connectionPos);
 
       _connectionId.getConnectionGraphicsObject().setGeometryChanged();
       _connectionId.getConnectionGraphicsObject().update();
@@ -262,7 +249,7 @@ mouseMoveEvent(QGraphicsSceneMouseEvent * event)
 
   if (requiredPort != PortType::None)
   {
-    _connectionId.connectionGeometry().moveEndPoint(requiredPort, offset);
+    _connectionId.moveEndPointBy(requiredPort, offset);
   }
 
   //-------------------

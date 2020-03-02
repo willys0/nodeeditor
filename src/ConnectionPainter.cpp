@@ -21,9 +21,8 @@ static
 QPainterPath
 cubicPath(ConnectionGraphicsObject const & connection)
 {
-  auto const & ends   = connection.inOut();
-  QPointF const & in  = ends[PortType::In];
-  QPointF const & out = ends[PortType::Out];
+  QPointF const & in  = connection.endPoint(PortType::In);
+  QPointF const & out = connection.endPoint(PortType::Out);
 
   auto const c1c2 = connection.pointsC1C2();
 
@@ -38,12 +37,12 @@ cubicPath(ConnectionGraphicsObject const & connection)
 
 QPainterPath
 ConnectionPainter::
-getPainterStroke(ConnectionGraphicsObject const & geom)
+getPainterStroke(ConnectionGraphicsObject const & connection)
 {
-  auto cubic = cubicPath(geom);
+  auto cubic = cubicPath(connection);
 
-  QPointF const & source = geom.source();
-  QPainterPath result(source);
+  QPointF const & out = connection.endPoint(PortType::Out);
+  QPainterPath result(out);
 
   unsigned segments = 20;
 

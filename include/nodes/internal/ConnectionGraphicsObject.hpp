@@ -53,7 +53,10 @@ public:
 
   QPainterPath shape() const override;
 
-  QPointF const & getEndPoint(PortType portType) const;
+  QPointF const & endPoint(PortType portType) const;
+  QPointF & endPoint(PortType portType);
+
+  std::pair<QPointF, QPointF> pointsC1C2() const;
 
   void setEndPoint(PortType portType, QPointF const & point);
 
@@ -70,7 +73,6 @@ public:
   ConnectionState const & connectionState() const;
   ConnectionState & connectionState();
 
-  std::array<QPointF, 2> inOut() const { return _inOut; }
 
 protected:
 
@@ -92,8 +94,6 @@ private:
 
   void addGraphicsEffect();
 
-  std::pair<QPointF, QPointF> pointsC1C2() const;
-
 private:
 
   GraphicsScene & _scene;
@@ -104,7 +104,8 @@ private:
 
   State _state;
 
-  std::array<QPointF, 2> _inOut;
+  QPointF _in;
+  QPointF _out;
 
   bool _hovered;
 

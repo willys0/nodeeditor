@@ -52,9 +52,9 @@ Q_ENUM_NS(ConnectionPolicy)
 
 enum class PortType
 {
-  None,
-  In,
-  Out
+  In   = 0,
+  Out  = 1,
+  None = 2
 };
 Q_ENUM_NS(PortType)
 
