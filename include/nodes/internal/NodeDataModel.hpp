@@ -26,6 +26,8 @@ class Connection;
 
 class StyleCollection;
 
+class NodePainterDelegate;
+
 class NODE_EDITOR_PUBLIC NodeDataModel
   : public QObject
   , public Serializable

@@ -201,8 +201,14 @@ drawNormalLine(QPainter * painter,
 
     gradientColor = (dataTypeOut.id != dataTypeIn.id);
 
-    normalColorOut  = connectionStyle.normalColor(dataTypeOut.id);
-    normalColorIn   = connectionStyle.normalColor(dataTypeIn.id);
+    normalColorOut  = dataTypeOut.color.isValid()
+      ? dataTypeOut.color
+      : connectionStyle.normalColor(dataTypeOut.id);
+
+    normalColorIn = dataTypeIn.color.isValid()
+      ? dataTypeIn.color
+      : connectionStyle.normalColor(dataTypeIn.id);
+
     selectedColor = normalColorOut.darker(200);
   }
 

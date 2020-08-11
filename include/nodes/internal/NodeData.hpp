@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QtCore/QString>
+#include <QtGui/QColor>
 
 #include "Export.hpp"
 
@@ -11,6 +12,7 @@ struct NodeDataType
 {
   QString id;
   QString name;
+  QColor color;
 };
 
 /// Class represents data transferred between nodes.

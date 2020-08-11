@@ -55,7 +55,7 @@ paint(QPainter* painter,
   /// call custom painter
   if (auto painterDelegate = model->painterDelegate())
   {
-    painterDelegate->paint(painter, geom, model);
+    painterDelegate->paint(painter, geom, model, graphicsObject);
   }
 }
 
@@ -171,7 +171,9 @@ drawConnectionPoints(QPainter* painter,
 
       if (connectionStyle.useDataDefinedColors())
       {
-        painter->setBrush(connectionStyle.normalColor(dataType.id));
+        painter->setBrush(dataType.color.isValid()
+                          ? dataType.color
+                          : connectionStyle.normalColor(dataType.id));
       }
       else
       {
@@ -212,7 +214,10 @@ drawFilledConnectionPoints(QPainter * painter,
 
         if (connectionStyle.useDataDefinedColors())
         {
-          QColor const c = connectionStyle.normalColor(dataType.id);
+          QColor const c = dataType.color.isValid()
+            ? dataType.color
+            : connectionStyle.normalColor(dataType.id);
+
           painter->setPen(c);
           painter->setBrush(c);
         }
